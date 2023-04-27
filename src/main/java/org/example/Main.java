@@ -227,9 +227,15 @@ public class Main extends TelegramLongPollingBot {
         levels.put(chatId, level);
     }
 
+    private List<String> selectedVariants = new ArrayList<>();
+
     public  List<String> getRandoms3(List<String> variants){
         ArrayList<String> copy = new ArrayList<>(variants);
+        copy.removeAll(selectedVariants); // виключаємо вибрані елементи зі списку
+
         Collections.shuffle(copy);
-        return copy.subList(0, 3);
+        List<String> selected = copy.subList(0, Math.min(3, copy.size())); // вибираємо не більше 3 елементів
+        selectedVariants.addAll(selected); // додаємо вибрані елементи до списку вже вибраних
+        return selected;
     }
 }
